@@ -110,5 +110,15 @@ Route::middleware(['auth','language'])->group(function ()
     Route::group(['prefix' => 'order'],function ()
     {
         Route::get('/',[COrder::class,'index'])->name('order-index');
+        Route::get('/data',[COrder::class,'datatable']);
+        Route::get('/create',[COrder::class,'create']);
+        Route::post('/create-save',[COrder::class,'create_save']);
+        Route::get('/show/{id}',[COrder::class,'show']);
+        Route::get('/detail/{id}',[COrder::class,'detail']);
+        Route::get('/confirm/{id}',[COrder::class,'confirm']);
+        Route::post('/show-save/{id}',[COrder::class,'show_save']);
+        Route::post('/update-status',[COrder::class,'update_status']);
+        Route::get('/delete/{id}',[COrder::class,'delete']);
+        Route::post('/import',[COrder::class,'readExcel']);
     });
 }); 
