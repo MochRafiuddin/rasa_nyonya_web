@@ -9,7 +9,7 @@ use Illuminate\Support\Facades\Validator;
 use DataTables;
 use App\Traits\Helper;  
 
-class CWilayah extends Controller
+class ConWilayah extends Controller
 {
     use Helper;
 

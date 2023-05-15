@@ -3,7 +3,7 @@
 use App\Http\Controllers\CArea;
 use App\Http\Controllers\CDashboard;
 use App\Http\Controllers\CLogin;
-use App\Http\Controllers\CWilayah;
+use App\Http\Controllers\ConWilayah;
 use App\Http\Controllers\CCourier;
 use App\Http\Controllers\CAdmin;
 use App\Http\Controllers\CCustomer;
@@ -35,7 +35,7 @@ Route::middleware(['auth','language'])->group(function ()
     Route::group(['prefix' => 'master'],function ()
     {        
         Route::get('area',[CArea::class,'index'])->name('area-index');
-        Route::get('wilayah',[CWilayah::class,'index'])->name('wilayah-index');
+        Route::get('wilayah',[ConWilayah::class,'index'])->name('wilayah-index');
         Route::get('courier',[CCourier::class,'index'])->name('courier-index');
         Route::get('admin',[CAdmin::class,'index'])->name('admin-index');
         Route::get('customer',[CCustomer::class,'index'])->name('customer-index');
@@ -61,12 +61,12 @@ Route::middleware(['auth','language'])->group(function ()
     ### Wilayah ###
     Route::group(['prefix' => 'wilayah'],function ()
     {
-        Route::get('/create',[CWilayah::class,'create']);
-        Route::post('/create-save',[CWilayah::class,'create_save']);
-        Route::get('/show/{id}',[CWilayah::class,'show']);
-        Route::post('/show-save/{id}',[CWilayah::class,'show_save']);
-        Route::get('/delete/{id}',[CWilayah::class,'delete']);
-        Route::get('/data',[CWilayah::class,'datatable']);
+        Route::get('/create',[ConWilayah::class,'create']);
+        Route::post('/create-save',[ConWilayah::class,'create_save']);
+        Route::get('/show/{id}',[ConWilayah::class,'show']);
+        Route::post('/show-save/{id}',[ConWilayah::class,'show_save']);
+        Route::get('/delete/{id}',[ConWilayah::class,'delete']);
+        Route::get('/data',[ConWilayah::class,'datatable']);
     });
     Route::group(['prefix' => 'courier'],function ()
     {
