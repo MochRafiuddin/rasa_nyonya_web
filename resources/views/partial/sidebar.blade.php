@@ -29,13 +29,26 @@
         </li>        
         <li class="nav-item">
             <a class="nav-link" data-toggle="collapse" href="#ui-advanced1" aria-expanded="false" aria-controls="ui-advanced1">
-                <i class="mdi mdi mdi-cube-send menu-icon"></i>
+                <i class="mdi mdi-cube-send menu-icon"></i>
                 <span class="menu-title">Order</span>
                 <i class="menu-arrow"></i>
             </a>
             <div class="collapse" id="ui-advanced1">
                 <ul class="nav flex-column sub-menu">
                     <li class="nav-item"> <a class="nav-link" href="{{route('order-index')}}">Order</a></li>                    
+                </ul>
+            </div>
+        </li>        
+        <li class="nav-item">
+            <a class="nav-link" data-toggle="collapse" href="#ui-advanced2" aria-expanded="false" aria-controls="ui-advanced1">
+                <i class="mdi mdi-folder-multiple menu-icon"></i>
+                <span class="menu-title">Report</span>
+                <i class="menu-arrow"></i>
+            </a>
+            <div class="collapse" id="ui-advanced2">
+                <ul class="nav flex-column sub-menu">
+                    <li class="nav-item"> <a class="nav-link" href="{{route('courier-performance-index')}}">Courier Performance</a></li>                    
+                    <li class="nav-item"> <a class="nav-link" href="{{route('courier-fee-index')}}">Courier Fee</a></li>                    
                 </ul>
             </div>
         </li>        

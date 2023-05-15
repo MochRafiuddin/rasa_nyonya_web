@@ -13,189 +13,56 @@
 
         function addActiveClass(element) {
             // var current1 = location.pathname;
-            if (
-                curr == "referensi/agama" ||
-                curr == "agama/create" ||
-                curr == "agama/show"
-            ) {
-                current = "referensi/agama";
+            if (curr == "dashboard") {
+                current = "dashboard";
             } else if (
-                curr == "referensi/bank" ||
-                curr == "bank/create" ||
-                curr == "bank/show"
+                curr == "master/area" ||
+                curr == "area/create" ||
+                curr == "area/show"
             ) {
-                current = "referensi/bank";
+                current = "master/area";
             } else if (
-                curr == "referensi/departement" ||
-                curr == "departement/create" ||
-                curr == "departement/show"
+                curr == "master/wilayah" ||
+                curr == "wilayah/create" ||
+                curr == "wilayah/show"
             ) {
-                current = "referensi/departement";
+                current = "master/wilayah";
             } else if (
-                curr == "referensi/jabatan" ||
-                curr == "jabatan/create" ||
-                curr == "jabatan/show"
+                curr == "master/courier" ||
+                curr == "courier/create" ||
+                curr == "courier/show"
             ) {
-                current = "referensi/jabatan";
+                current = "master/courier";
             } else if (
-                curr == "referensi/status-pegawai" ||
-                curr == "status_karyawan/create" ||
-                curr == "status_karyawan/show"
+                curr == "master/admin" ||
+                curr == "admin/create" ||
+                curr == "admin/show"
             ) {
-                current = "referensi/status-pegawai";
+                current = "master/admin";
             } else if (
-                curr == "referensi/pendidikan" ||
-                curr == "pendidikan/create" ||
-                curr == "pendidikan/show"
+                curr == "master/customer" ||
+                curr == "customer/create" ||
+                curr == "customer/show"
             ) {
-                current = "referensi/pendidikan";
+                current = "master/customer";
             } else if (
-                curr == "master/officer-grup" ||
-                curr == "grup_karyawan/create" ||
-                curr == "grup_karyawan/show"
-            ) {
-                current = "master/officer-grup";
-            } else if (
-                curr == "master/karyawan" ||
-                curr == "karyawan/create" ||
-                curr == "karyawan/show"
-            ) {
-                current = "master/karyawan";
-            } else if (
-                curr == "master/kawin-status" ||
-                curr == "status_kawin/create" ||
-                curr == "status_kawin/show"
-            ) {
-                current = "master/kawin-status";
-            } else if (
-                curr == "konfigurasi/tarif-pph" ||
-                curr == "tarif_pph/create" ||
-                curr == "tarif_pph/show"
-            ) {
-                current = "konfigurasi/tarif-pph";
-            } else if (
-                curr == "konfigurasi/tarif-lembur" ||
-                curr == "tarif_lembur/create" ||
-                curr == "tarif_lembur/show"
-            ) {
-                current = "konfigurasi/tarif-lembur";
-            } else if (
-                curr == "master/shift" ||
-                curr == "shift/create" ||
-                curr == "shift/show"
-            ) {
-                current = "master/shift";
-            } else if (curr == "absensi/atur-shift-grup-karyawan") {
-                current = "absensi/atur-shift-grup-karyawan";
-            } else if (curr == "absensi/atur-shift-karyawan") {
-                current = "absensi/atur-shift-karyawan";
-            } else if (
-                curr == "absensi/ref-tipe-absensi" ||
-                curr == "ref-tipe-absensi/create" ||
-                curr == "ref-tipe-absensi/show"
-            ) {
-                current = "absensi/ref-tipe-absensi";
-            } else if (
-                curr == "penggajian/periode" ||
-                curr == "periode/create"
-            ) {
-                current = "penggajian/periode";
-            } else if (
-                curr == "penggajian/salary" ||
-                curr == "gaji/create" ||
-                curr == "gaji/show"
-            ) {
-                current = "penggajian/salary";
-            } else if (
-                curr == "penggajian/gj-pegawai" ||
-                curr == "gaji_karyawan/set-gaji"
-            ) {
-                current = "penggajian/gj-pegawai";
-            } else if (
-                curr == "penggajian/g-period" ||
-                curr == "gaji_karyawan/set-gaji-periode"
-            ) {
-                current = "penggajian/g-period";
-            } else if (
-                curr == "absensi/fingerprint" ||
-                curr == "absen/fingerprint" ||
-                curr == "absen/import"
-            ) {
-                current = "absensi/fingerprint";
-            } else if (
-                curr == "riwayat/riwayat-absensi" ||
-                curr == "absensi-karyawan/view-filter" ||
-                curr == "marked"
-            ) {
-                current = "riwayat/riwayat-absensi";
-            } else if (curr == "riwayat/total-absensi") {
-                current = "riwayat/total-absensi";
-            } else if (
-                curr == "absensi/izin-cuti" ||
-                curr == "izin-cuti/create" ||
-                curr == "izin-cuti/show"
-            ) {
-                current = "absensi/izin-cuti";
-            } else if (
-                curr == "absensi/over-time" ||
-                curr == "lembur/edit" ||
-                curr == "lembur/detail"
-            ) {
-                current = "absensi/over-time";
-            } else if (curr == "riwayat/riwayat-penggajian") {
-                current = "riwayat/riwayat-penggajian";
-            } else if (curr == "perbaikan-gaji") {
-                current = "perbaikan-gaji";
-            } else if (curr == "penggajian/approval-gaji") {
-                current = "penggajian/approval-gaji";
-            } else if (
-                curr == "penggajian/asuransi" ||
-                curr == "gaji_karyawan/create-asuransi" ||
-                curr == "gaji_karyawan/edit-asuransi"
-            ) {
-                current = "penggajian/asuransi";
-            } else if (curr == "selfi/pengguna-aktif") {
-                current = "selfi/pengguna-aktif";
-            } else if (curr == "selfi/data-selfi") {
-                current = "selfi/data-selfi";
-            } else if (curr == "selfi/submit") {
-                current = "selfi/submit";
-            } else if (curr == "sistem") {
-                current = "sistem";
-            } else if (
-                curr == "setting/user" ||
+                curr == "master/user" ||
                 curr == "user/create" ||
                 curr == "user/show"
             ) {
-                current = "setting/user";
+                current = "master/user";
             } else if (
-                curr == "setting/role" ||
-                curr == "role/create" ||
-                curr == "role/set-menu"
+                curr == "order" ||
+                curr == "order/create" ||
+                curr == "order/show" ||
+                curr == "order/detail" ||
+                curr == "order/confrim"
             ) {
-                current = "setting/role";
-            } else if (curr == "dashboard") {
-                current = "dashboard";
-            } else if (curr == "dashboard/karyawan") {
-                current = "dashboard/karyawan";
-            } else if (
-                curr == "pph_karyawan" ||
-                curr == "pph_karyawan/create" ||
-                curr == "pph_karyawan/show"
-            ) {
-                current = "pph_karyawan";
-            } else if (
-                curr == "master/lokasi" ||
-                curr == "lokasi/create" ||
-                curr == "lokasi/show"
-            ) {
-                current = "master/lokasi";
-            } else if (
-                curr == "lokasi-checklog" ||
-                curr == "lokasi-checklog/create" ||
-                curr == "lokasi-checklog/show"
-            ) {
-                current = "lokasi-checklog";
+                current = "order";
+            } else if (curr == "report/courier-performance") {
+                current = "report/courier-performance";
+            } else if (curr == "report/courier-fee") {
+                current = "report/courier-fee";
             }
 
             if (current === "") {
@@ -224,28 +91,17 @@
 
         var cur1 = location.pathname
             .split("/")
-            .slice(1)[0]
+            .slice(3)[0]
             .replace(/^\/|\/$/g, "");
-        console.log(location.pathname.split("/"));
-        if (cur1 == "marked") {
-            var curr = "marked";
-        } else if (cur1 == "perbaikan-gaji") {
-            var curr = "perbaikan-gaji";
-        } else if (cur1 == "lokasi-checklog") {
-            var curr = "lokasi-checklog";
-        } else if (cur1 == "sistem") {
-            var curr = "sistem";
-        } else if (
-            cur1 == "dashboard" &&
-            location.pathname.split("/").length == 2
-        ) {
+        console.log(cur1);
+        if (cur1 == "dashboard") {
             var curr = "dashboard";
-        } else if (cur1 == "" && location.pathname.split("/").length == 2) {
-            var curr = "";
+        } else if (cur1 == "order") {
+            var curr = "order";
         } else {
             var cur2 = location.pathname
                 .split("/")
-                .slice(2)[0]
+                .slice(4)[0]
                 .replace(/^\/|\/$/g, "");
             var curr = cur1 + "/" + cur2;
         }

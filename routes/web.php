@@ -9,6 +9,7 @@ use App\Http\Controllers\CAdmin;
 use App\Http\Controllers\CCustomer;
 use App\Http\Controllers\CUser;
 use App\Http\Controllers\COrder;
+use App\Http\Controllers\CReport;
 
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Route;
@@ -120,5 +121,18 @@ Route::middleware(['auth','language'])->group(function ()
         Route::post('/update-status',[COrder::class,'update_status']);
         Route::get('/delete/{id}',[COrder::class,'delete']);
         Route::post('/import',[COrder::class,'readExcel']);
+    });
+    Route::group(['prefix' => 'report'],function ()
+    {
+        Route::get('/courier-performance',[CReport::class,'index'])->name('courier-performance-index');
+        Route::get('/courier-fee',[CReport::class,'index_fee'])->name('courier-fee-index');
+    });
+    Route::group(['prefix' => 'courier-performance'],function ()
+    {        
+        Route::get('/data',[CReport::class,'datatable']);
+    });
+    Route::group(['prefix' => 'courier-fee'],function ()
+    {        
+        Route::get('/data',[CReport::class,'datatable_fee']);
     });
 }); 
