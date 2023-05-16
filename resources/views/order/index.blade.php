@@ -296,7 +296,7 @@
             read_data();
         });
 
-        $('.id_wilayah, .checkboxB').on('change',function(){
+        $('#id_wilayah, .checkboxB, #id_customer').on('change',function(){
             $('.table').DataTable().destroy();
             read_data();
         });
