@@ -14,6 +14,7 @@ use Maatwebsite\Excel\Facades\Excel;
 use PHPExcel_Cell_DataType;
 use PHPExcel_IOFactory;
 use DataTables;
+use Carbon\Carbon;
 use App\Traits\Helper;  
 
 class COrder extends Controller
@@ -22,16 +23,22 @@ class COrder extends Controller
 
     public function index()
     {
-        return view('order.index')->with('title','Order');
+        $tanggal = date('d-m-Y').' - '.date('d-m-Y',strtotime("+1 weeks"));
+        return view('order.index')
+            ->with('area',MArea::where('deleted',1)->orderBy('nama_area','asc')->get())
+            ->with('wilayah',MWilayah::where('deleted',1)->orderBy('nama_wilayah','asc')->get())
+            ->with('customer',MCustomer::where('deleted',1)->orderBy('nama','asc')->get())
+            ->with('tanggal',$tanggal)
+            ->with('title','Order');
     }
     public function create($title_page = 'Tambah')
     {
         $url = url('order/create-save');
         return view('order.form')
             ->with('data',null)
-            ->with('area',MArea::where('deleted',1)->get())
-            ->with('wilayah',MWilayah::where('deleted',1)->get())
-            ->with('customer',MCustomer::where('deleted',1)->get())
+            ->with('area',MArea::where('deleted',1)->orderBy('nama_area','asc')->get())
+            ->with('wilayah',MWilayah::where('deleted',1)->orderBy('nama_wilayah','asc')->get())
+            ->with('customer',MCustomer::where('deleted',1)->orderBy('nama','asc')->get())
             ->with('title','Order')
             ->with('titlePage',$title_page)
             ->with('url',$url);
@@ -70,13 +77,13 @@ class COrder extends Controller
     
     public function show($id)
     {
-        // dd(MWilayah::find($id));
+        $data=TOrder::find($id);
         
         return view('order.form')
-            ->with('data',TOrder::find($id))
-            ->with('area',MArea::where('deleted',1)->get())
-            ->with('wilayah',MWilayah::where('deleted',1)->get())
-            ->with('customer',MCustomer::where('deleted',1)->get())            
+            ->with('data',$data)
+            ->with('area',MArea::where('deleted',1)->orderBy('nama_area','asc')->get())
+            ->with('wilayah',MWilayah::where('deleted',1)->where('id_area',$data->id_area)->orderBy('nama_wilayah','asc')->get())
+            ->with('customer',MCustomer::where('deleted',1)->orderBy('nama','asc')->get())            
             ->with('title','Order')
             ->with('titlePage','Edit')
             ->with('url',url('order/show-save/'.$id));
@@ -135,10 +142,15 @@ class COrder extends Controller
                         ->withErrors($validator->errors());
         }
         $mWilayah = TOrder::find($id);
+        if ($mWilayah->id_status > 1) {
+            return redirect()->back()
+            ->with('msg','Tidak bisa edit data karena status bukan new');
+        }
+
         $mWilayah->id_customer = $request->id_customer;
         $mWilayah->jenis_pengantaran = $request->jenis_pengantaran;
         $mWilayah->tanggal_pemesanan = date('Y-m-d H:i:s',strtotime($request->tanggal_pemesanan));
-        $mWilayah->jenis_paket = $request->tanggal_pemesanan;
+        $mWilayah->jenis_paket = $request->jenis_paket;
         $mWilayah->id_area = $request->id_area;
         $mWilayah->id_wilayah = $request->id_wilayah;
         $mWilayah->alamat = $request->alamat;
@@ -151,7 +163,7 @@ class COrder extends Controller
     {        
         $mWilayah = TOrder::find($request->id_order);
         if ($request->id_status_m == 4) {
-            $mWilayah->fee_courier = $request->fee_courier;
+            $mWilayah->fee_courier = str_replace(".","",$request->fee_courier);
             $mWilayah->id_status = $request->id_status_m;
         }else {
             $mWilayah->alasan_reject = $request->alasan_reject;
@@ -163,26 +175,50 @@ class COrder extends Controller
     }
     public function delete($id)
     {
-        MWilayah::updateDeleted($id);
+        TOrder::updateDeleted($id);
         return redirect()->route('order-index')->with('msg','Sukses Menambahkan Data');
 
     }
-    public function datatable()
+    public function datatable(Request $request)
     {
+        // dd($request->status);
+        $date = explode(' - ', $request->date);
+        $start = Carbon::createFromFormat('d-m-Y',$date[0])->format('Y-m-d');
+        $end = Carbon::createFromFormat('d-m-Y',$date[1])->format('Y-m-d');
+
         $model = TOrder::select('t_order.*','m_area.nama_area as area','m_wilayah.nama_wilayah as wilayah','m_customer.nama as nama_customer','m_status.nama_status')
                     ->join('m_area','m_area.id_area','t_order.id_area')
                     ->join('m_wilayah','m_wilayah.id_wilayah','t_order.id_wilayah')
                     ->join('m_customer','m_customer.id_customer','t_order.id_customer')                    
                     ->join('m_status','m_status.id_status','t_order.id_status')
                     ->where('t_order.deleted',1)
-                    ->orderBy('t_order.tanggal_pemesanan','asc');
+                    ->whereBetween('t_order.tanggal_pemesanan',[$start,$end]);
+                    // ->orderBy('t_order.tanggal_pemesanan','asc');
+        if ($request->customer != 0) {
+            $model = $model->where('t_order.id_customer',$request->customer);
+        }
+        if ($request->area != 0) {
+            $model = $model->where('t_order.id_area',$request->area);
+        }
+        if ($request->wilayah != 0) {
+            $model = $model->where('t_order.id_wilayah',$request->wilayah);
+        }
+        if ($request->status != null) {
+            $model = $model->whereIn('t_order.id_status',explode(",",$request->status));
+        }
         return DataTables::eloquent($model)
             ->addColumn('action', function ($row) {
-                $btn = '';                
-                $btn .= '<a href="'.url('order/delete/'.$row->id_order).'" class="text-primary delete mr-2"><span class="mdi mdi-delete" data-toggle="tooltip" data-placement="Top" title="Delete"></span></a>';
-                $btn .= '<a href="'.url('order/show/'.$row->id_order).'" class="text-danger mr-2"><span class="mdi mdi-pen" data-toggle="tooltip" data-placement="Top" title="Edit"></span></a>';
-                $btn .= '<a href="'.url('order/detail/'.$row->id_order).'" class="text-warning mr-2"><span class="mdi mdi-adjust" data-toggle="tooltip" data-placement="Top" title="Track"></span></a>';
-                $btn .= '<a href="'.url('order/confirm/'.$row->id_order).'" class="text-success mr-2"><span class="mdi mdi-check" data-toggle="tooltip" data-placement="Top" title="Confirm"></span></a>';
+                $btn = '';
+                if($row->id_status == 1){
+                    $btn .= '<a href="'.url('order/delete/'.$row->id_order).'" class="text-primary delete mr-2"><span class="mdi mdi-delete" data-toggle="tooltip" data-placement="Top" title="Delete"></span></a>';
+                    $btn .= '<a href="'.url('order/show/'.$row->id_order).'" class="text-danger mr-2"><span class="mdi mdi-pen" data-toggle="tooltip" data-placement="Top" title="Edit"></span></a>';
+                    $btn .= '<a href="'.url('order/detail/'.$row->id_order).'" class="text-warning mr-2"><span class="mdi mdi-adjust" data-toggle="tooltip" data-placement="Top" title="Track"></span></a>';
+                }else if ($row->id_status == 2 || $row->id_status == 4 || $row->id_status == 5) {
+                    $btn .= '<a href="'.url('order/detail/'.$row->id_order).'" class="text-warning mr-2"><span class="mdi mdi-adjust" data-toggle="tooltip" data-placement="Top" title="Track"></span></a>';
+                }else if ($row->id_status == 3) {
+                    $btn .= '<a href="'.url('order/detail/'.$row->id_order).'" class="text-warning mr-2"><span class="mdi mdi-adjust" data-toggle="tooltip" data-placement="Top" title="Track"></span></a>';
+                    $btn .= '<a href="'.url('order/confirm/'.$row->id_order).'" class="text-success mr-2"><span class="mdi mdi-check" data-toggle="tooltip" data-placement="Top" title="Confirm"></span></a>';
+                }
                 return $btn;
             })
             ->editColumn('kurir', function ($row) {
@@ -242,34 +278,27 @@ class COrder extends Controller
             // dd(date('Y-m-d',strtotime($rows[$i][3])));
             // dd($rows[$i][3]);
             $customer = MCustomer::where('no_hp',$rows[$i][0])->first();            
-            $area = MArea::where('kode_area',$rows[$i][5])->first();
-            $wilayah = MWilayah::select('m_wilayah.*','m_area.kode_area')
-                    ->join('m_area','m_area.id_area','m_wilayah.id_area')
-                    ->where('kode_area',$rows[$i][5])->where('kode_wilayah',$rows[$i][6])->first();
+            // $area = MArea::where('kode_area',$rows[$i][5])->first();
+            $wilayah = MWilayah::where('kode_wilayah',$rows[$i][5])->first();
             if ($customer == null) {
                 $error=1;
                 $msg = "No telfon customer <b>".$rows[$i][0]."</b> tidak ditemukan, silakan cek di menu Master Customer";
                 continue;
             }
-            if ($area == null) {
-                $error=1;
-                $msg = "Area <b>".$rows[$i][5]."</b> tidak ditemukan, silakan cek di menu Master Area";
-                continue;
-            }
             if ($wilayah == null) {
                 $error=1;
-                $msg = "wilayah <b>".$rows[$i][6]."</b> tidak di area <b>".$rows[$i][5]."</b>, silakan cek di menu Master Wilayah";
+                $msg = "wilayah <b>".$rows[$i][5]."</b> tidak ditemukan, silakan cek di menu Master Wilayah";
                 continue;
             }
                 array_push($data,[
                     'id_customer' => $customer->id_customer,
                     'jenis_pengantaran' => $rows[$i][2],
-                    'tanggal_pemesanan' => date('Y-m-d',strtotime($rows[$i][3])),
+                    'tanggal_pemesanan' => Carbon::createFromFormat('d/m/Y',$rows[$i][3])->format('Y-m-d'),
                     'jenis_paket' => $rows[$i][4],
-                    'id_area' => $area->id_area,
+                    'id_area' => $wilayah->id_area,
                     'id_wilayah' => $wilayah->id_wilayah,
-                    'alamat' => $rows[$i][7],
-                    'keterangan' => $rows[$i][8],
+                    'alamat' => $rows[$i][6],
+                    'keterangan' => $rows[$i][7],
                     'id_status' => 1,
                     'created_by' => 1,
                     'updated_by' => 1,

@@ -8,6 +8,64 @@
         <div class="card">
             <div class="card-body">
                 <h4>Order</h4><br>
+                <div class="row">                
+                    <div class="form-group col-3">
+                        <label for="">Tanggal</label>
+                        <input class="form-control" type="text" name="tanggal" id="tanggal" value="{{$tanggal}}">
+                    </div>
+                    <div class="form-group col-3">
+                        <label for="exampleInputEmail1">Customer</label>
+                        <select class="form-control js-example-basic-single" name="id_customer" id="id_customer">
+                            <option value="0" selected> Semua customer </option>                                
+                            @foreach($customer as $key)
+                            <option value="{{$key->id_customer}}">{{$key->nama}}</option>
+                            @endforeach
+                        </select>
+                    </div>
+                    <div class="form-group col-3">
+                        <label for="exampleInputEmail1">Area</label>
+                        <select class="form-control js-example-basic-single" name="id_area" id="id_area">
+                            <option value="0" selected> Semua Area </option>                                
+                            @foreach($area as $key)
+                            <option value="{{$key->id_area}}">{{$key->nama_area}}</option>
+                            @endforeach
+                        </select>
+                    </div>
+                    <div class="form-group col-3">
+                        <label for="exampleInputEmail1">Wilayah</label>
+                        <select class="form-control js-example-basic-single" name="id_wilayah" id="id_wilayah">
+                            <option value="0" selected> Semua Wilayah </option>                                
+                            @foreach($wilayah as $key)
+                            <option value="{{$key->id_wilayah}}">{{$key->nama_wilayah}}</option>
+                            @endforeach
+                        </select>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12 mb-3">
+                        <label style='font-size: 0.875rem;line-height: 1;vertical-align: top;margin-bottom: .5rem;'>Status</label><br>
+                        <div class="custom-control custom-checkbox custom-control-inline">
+                            <input type="checkbox" id="checkboxAb1" name="checkboxAb[]" class="custom-control-input checkboxB" value='1' checked>
+                            <label class="custom-control-label" for="checkboxAb1">New</label>
+                        </div>
+                        <div class="custom-control custom-checkbox custom-control-inline">
+                            <input type="checkbox" id="checkboxAb2" name="checkboxAb[]" class="custom-control-input checkboxB" value='2' checked>
+                            <label class="custom-control-label" for="checkboxAb2">Pick Order</label>
+                        </div>
+                        <div class="custom-control custom-checkbox custom-control-inline">
+                            <input type="checkbox" id="checkboxAb3" name="checkboxAb[]" class="custom-control-input checkboxB" value='3' checked>
+                            <label class="custom-control-label" for="checkboxAb3">Delivered</label>
+                        </div>
+                        <div class="custom-control custom-checkbox custom-control-inline">
+                            <input type="checkbox" id="checkboxAb4" name="checkboxAb[]" class="custom-control-input checkboxB" value='4' checked>
+                            <label class="custom-control-label" for="checkboxAb4">Accept</label>
+                        </div>
+                        <div class="custom-control custom-checkbox custom-control-inline">
+                            <input type="checkbox" id="checkboxAb5" name="checkboxAb[]" class="custom-control-input checkboxB" value='5' checked>
+                            <label class="custom-control-label" for="checkboxAb5">Reject</label>
+                        </div>
+                    </div>
+                </div>
                 <div class="row mb-4">
                     <div class="col text-right">                        
                         <button class="btn btn-warning btn-import">Import</button>
@@ -53,7 +111,7 @@
                 <div class="modal-body">
                     <div class="form_group">
                       <label>Format Excel</label>
-                      <p><a href="{{ asset('download/Format upload customer - rasa nyonya.xlsx') }}">Download Format Excel</a></p>
+                      <p><a href="{{ asset('download/Format upload order - rasa nyonya.xlsx') }}">Download Format Excel</a></p>
                   </div>
                   <br>
                   <div class="form_group" id="file">
@@ -85,18 +143,25 @@
 </div>
 @endsection
 @push('js')
+<script src="{{ asset('/') }}assets/vendors/daterangepicker/daterangepicker.min.js"></script>
 <script>
     $(document).ready(function () {
         read_data();
 
+        $('#id_area, #id_wilayah, #id_customer').select2();
+
         function read_data() {
+            var testval = $('input:checkbox:checked.checkboxB').map(function(){
+            return this.value; }).get().join(",");
             $('.table').DataTable({
                 processing: true,
                 serverSide: true,
-
+                "order": [[ 3, "asc" ]],
                 "scrollX": true,
                 ajax: {
                     url: '{{ url("order/data") }}',
+                    type: 'get',
+                    data: {area:$('#id_area').val(), wilayah:$('#id_wilayah').val(), customer:$('#id_customer').val(), date:$('#tanggal').val(), status:testval},
                 },
                 rowReorder: {
                     selector: 'td:nth-child(1)'
@@ -120,7 +185,7 @@
                     },
                     {
                         data: 'tanggal_order',
-                        name: 'tanggal_order',
+                        name: 'tanggal_pemesanan',
                     },
                     {
                         data: 'kurir',
@@ -129,7 +194,7 @@
                     },
                     {
                         data: 'tanggal_tiba',
-                        name: 'tanggal_tiba',
+                        name: 'waktu_courier_tiba',
                     },
                     {
                         data: 'nama_status',
@@ -192,6 +257,49 @@
         });
     }));
 
+        $('#tanggal').daterangepicker({
+            autoUpdateInput: false,
+            locale: {
+                cancelLabel: 'Clear',
+                format: 'DD-MM-YYYY',
+            }
+        });
+
+        $('#tanggal').on('apply.daterangepicker', function(ev, picker) {
+            $(this).val(picker.startDate.format('DD-MM-YYYY') + ' - ' + picker.endDate.format('DD-MM-YYYY'));
+            $('.table').DataTable().destroy();            
+            read_data();
+        });
+
+        $('#tanggal').on('cancel.daterangepicker', function(ev, picker) {
+            $(this).val('');
+        });
+
+        function data_wilayah() {
+            let id_area = $('#id_area').val();
+            $.ajax({
+                url: "{{url('courier/get-wilayah-by-area-filter')}}",
+                type: "get",
+                data:  {
+                    id_area : id_area,
+                },
+                dataType: "JSON",
+                success: function(res){
+                    $('#id_wilayah').html(res);
+                }
+            });
+        }
+
+        $('#id_area').on('change',function(){
+            data_wilayah();
+            $('.table').DataTable().destroy();
+            read_data();
+        });
+
+        $('.id_wilayah, .checkboxB').on('change',function(){
+            $('.table').DataTable().destroy();
+            read_data();
+        });
     });
 
     $('body').on('click', '.btn-import', function () { 

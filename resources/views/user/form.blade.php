@@ -11,7 +11,7 @@ $name[] = 'id_ref';
     <div class="content-wrapper">
         <div class="card">
             <div class="card-body">
-                <h6 class="card-title">{{$titlePage}} User</h6>
+                <h6 class="card-title">{{$titlePage}} Akun</h6>
                 <form action="{{$url}}" method="post">
                     @csrf
                     <div class="row">
@@ -40,7 +40,7 @@ $name[] = 'id_ref';
                                 {{Helper::showDataSelected($data,$name[2],1)}}>Admin</option>
                                 <option value="2"
                                 {{(old($name[2]) == 2) ? 'selected' : ''}}
-                                {{Helper::showDataSelected($data,$name[2],2)}}>Courier</option>
+                                {{Helper::showDataSelected($data,$name[2],2)}}>Kurir</option>
                             </select>
                         </div>                    
                     </div>    

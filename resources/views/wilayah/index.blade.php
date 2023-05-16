@@ -8,6 +8,17 @@
         <div class="card">
             <div class="card-body">
                 <h4>Wilayah</h4><br>
+                <div class="row">                
+                        <div class="form-group col-4">
+                            <label for="exampleInputEmail1">Area</label>
+                            <select class="form-control js-example-basic-single" name="id_area" id="id_area">
+                                <option value="0" selected> Semua Area </option>                                
+                                @foreach($area as $key)
+                                <option value="{{$key->id_area}}">{{$key->nama_area}}</option>
+                                @endforeach
+                            </select>
+                        </div>                    
+                </div>
                 <div class="row mb-4">
                     <div class="col text-right">                        
                         <a href="{{url('wilayah/create')}}" class="btn btn-info">Tambah</a>                        
@@ -20,9 +31,9 @@
                                 <thead>
                                     <tr>
                                         <th>No</th>
-                                        <th>Kode</th>
-                                        <th>Nama</th>
-                                        <th>Area</th>
+                                        <th>Nama Wilayah</th>
+                                        <th>Kode Wilayah</th>
+                                        <th>Nama Area</th>
                                         <th>Fee</th>
                                         <th>Action</th>
                                     </tr>
@@ -41,18 +52,24 @@
 </div>
 @endsection
 @push('js')
+<script src="{{asset('/')}}assets/js/select2.js"></script>
 <script>
+    $('.js-example-basic-single').select2({
+          placeholder: "Pilih Area",
+    });
     $(document).ready(function () {
         read_data();
 
         function read_data() {
-            $('table').DataTable({
+            $('.table').DataTable({
                 processing: true,
                 serverSide: true,
 
                 "scrollX": true,
                 ajax: {
                     url: '{{ url("wilayah/data") }}',
+                    type: 'get',
+                    data: {data:$('#id_area').val()},
                 },
                 rowReorder: {
                     selector: 'td:nth-child(1)'
@@ -67,12 +84,12 @@
                         className: 'text-center'
                     },
                     {
-                        data: 'kode_wilayah',
-                        name: 'kode_wilayah',                        
-                    },
-                    {
                         data: 'nama_wilayah',
                         name: 'nama_wilayah',                        
+                    },
+                    {
+                        data: 'kode_wilayah',
+                        name: 'kode_wilayah',                        
                     },
                     {
                         data: 'area',
@@ -108,6 +125,11 @@
                 }
                 })
         })
+
+        $('#id_area').on('change',function(){
+            $('.table').DataTable().destroy();
+            read_data();
+        });
     });
 </script>
 @endpush

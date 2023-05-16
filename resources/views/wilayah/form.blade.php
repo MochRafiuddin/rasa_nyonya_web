@@ -16,20 +16,6 @@ $name[] = 'fee';
                     @csrf
                     <div class="row">
                         <div class="form-group col">
-                            <label for="exampleInputEmail1">Kode</label>
-                            <input type="text" class="form-control @error($name[1]) is-invalid @enderror"
-                                value="{{Helper::showData($data,$name[1])}}" name="{{$name[1]}}" />
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="form-group col">
-                            <label for="exampleInputEmail1">Nama</label>
-                            <input type="text" class="form-control @error($name[0]) is-invalid @enderror"
-                                value="{{Helper::showData($data,$name[0])}}" name="{{$name[0]}}" />
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="form-group col">
                             <label for="{{ $name[2] }}">Area</label>
                             <select class="form-control @error($name[2]) is-invalid @enderror" name="{{$name[2]}}" id="{{$name[2]}}">
                                 <option value="" selected disabled> Pilih Area </option>
@@ -42,7 +28,21 @@ $name[] = 'fee';
                                 @endforeach
                             </select>
                         </div>                    
-                    </div>    
+                    </div>
+                    <div class="row">
+                        <div class="form-group col">
+                            <label for="exampleInputEmail1">Kode</label>
+                            <input type="text" class="form-control @error($name[1]) is-invalid @enderror"
+                                value="{{Helper::showData($data,$name[1])}}" name="{{$name[1]}}" />
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="form-group col">
+                            <label for="exampleInputEmail1">Nama</label>
+                            <input type="text" class="form-control @error($name[0]) is-invalid @enderror"
+                                value="{{Helper::showData($data,$name[0])}}" name="{{$name[0]}}" />
+                        </div>
+                    </div>                    
                     <div class="row">
                         <div class="form-group col">
                             <label for="exampleInputEmail1">Fee</label>
@@ -58,3 +58,11 @@ $name[] = 'fee';
 </div>
 
 @endsection
+@push('js')
+<script src="{{asset('/')}}assets/js/select2.js"></script>
+<script>
+    $('#id_area').select2({
+          placeholder: "Pilih Area",
+    });
+</script>
+@endpush

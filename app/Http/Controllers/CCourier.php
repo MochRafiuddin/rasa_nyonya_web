@@ -14,16 +14,19 @@ class CCourier extends Controller
 {
     public function index()
     {
-        return view('courier.index')->with('title','Courier');
+        return view('courier.index')
+        ->with('area',MArea::where('deleted',1)->orderBy('nama_area','asc')->get())
+        ->with('wilayah',MWilayah::where('deleted',1)->orderBy('nama_wilayah','asc')->get())
+        ->with('title','Kurir');
     }
     public function create($title_page = 'Tambah')
     {
         $url = url('courier/create-save');
         return view('courier.form')
             ->with('data',null)
-            ->with('area',MArea::where('deleted',1)->get())
-            ->with('wilayah',MWilayah::where('deleted',1)->get())
-            ->with('title','Courier')
+            ->with('area',MArea::where('deleted',1)->orderBy('nama_area','asc')->get())
+            ->with('wilayah',MWilayah::where('deleted',1)->orderBy('nama_wilayah','asc')->get())
+            ->with('title','Kurir')
             ->with('titlePage',$title_page)
             ->with('url',$url);
     }
@@ -54,13 +57,13 @@ class CCourier extends Controller
     
     public function show($id)
     {
-        // dd(MCourier::find($id));
+        $data =MCourier::find($id);
         
         return view('courier.form')
-            ->with('data',MCourier::find($id))
-            ->with('area',MArea::where('deleted',1)->get())
-            ->with('wilayah',MWilayah::where('deleted',1)->get())
-            ->with('title','Courier')
+            ->with('data',$data)
+            ->with('area',MArea::where('deleted',1)->orderBy('nama_area','asc')->get())
+            ->with('wilayah',MWilayah::where('deleted',1)->where('id_area',$data->id_area)->orderBy('nama_wilayah','asc')->get())
+            ->with('title','Kurir')
             ->with('titlePage','Edit')
             ->with('url',url('courier/show-save/'.$id));
     }
@@ -94,12 +97,18 @@ class CCourier extends Controller
         return redirect()->route('courier-index')->with('msg','Sukses Menambahkan Data');
 
     }
-    public function datatable()
+    public function datatable(Request $request)
     {
         $model = MCourier::select('m_courier.*','m_area.nama_area','m_wilayah.nama_wilayah')
                     ->join('m_area','m_area.id_area','m_courier.id_area')
                     ->join('m_wilayah','m_wilayah.id_wilayah','m_courier.id_wilayah')
                     ->where('m_courier.deleted',1);
+        if ($request->area != 0) {
+            $model= $model->where('m_courier.id_area',$request->area);
+        }
+        if ($request->wilayah != 0) {
+            $model= $model->where('m_courier.id_wilayah',$request->wilayah);
+        }        
         return DataTables::eloquent($model)
             ->addColumn('action', function ($row) {
                 $btn = '';                
@@ -114,10 +123,29 @@ class CCourier extends Controller
     public function get_wilayah_by_area(Request $request)
     {
         $id = $request->id_area;
-        $wilayah = MWilayah::where('id_area',$id)->get();        
+        $wilayah = MWilayah::where('id_area',$id)->where('deleted',1)->orderBy('nama_wilayah','asc')->get();        
         $html ='<option value="" selected disabled> Pilih Wilayah </option>';
         foreach ($wilayah as $key) {
             $html.="<option value='".$key->id_wilayah."'>".$key->nama_wilayah."</option>";
+        }
+        return response()->json($html);        
+    }
+    
+    public function get_wilayah_by_area_filter(Request $request)
+    {
+        $id = $request->id_area;
+        if ($id == 0) {
+            $wilayah = MWilayah::where('deleted',1)->orderBy('nama_wilayah','asc')->get();
+            $html="<option value='0' selected> Semua Wilayah </option>";
+            foreach ($wilayah as $key) {
+                $html.="<option value='".$key->id_wilayah."'>".$key->nama_wilayah."</option>";
+            }
+        }else {
+            $wilayah = MWilayah::where('id_area',$id)->where('deleted',1)->orderBy('nama_wilayah','asc')->get(); 
+            $html="<option value='0' selected> Semua Wilayah </option>";
+            foreach ($wilayah as $key) {
+                $html.="<option value='".$key->id_wilayah."'>".$key->nama_wilayah."</option>";
+            }   
         }
         return response()->json($html);        
     }

@@ -14,8 +14,11 @@ class ConWilayah extends Controller
     use Helper;
 
     public function index()
-    {
-        return view('wilayah.index')->with('title','Wilayah');
+    {   
+        $area = MArea::where('deleted',1)->get();
+        return view('wilayah.index')
+        ->with('area',$area)
+        ->with('title','Wilayah');
     }
     public function create($title_page = 'Tambah')
     {
@@ -56,7 +59,7 @@ class ConWilayah extends Controller
         
         return view('wilayah.form')
             ->with('data',MWilayah::find($id))
-            ->with('area',MArea::where('deleted',1)->get())
+            ->with('area',MArea::where('deleted',1)->orderBy('nama_area','asc')->get())
             ->with('title','Wilayah')
             ->with('titlePage','Edit')
             ->with('url',url('wilayah/show-save/'.$id));
@@ -89,11 +92,15 @@ class ConWilayah extends Controller
         return redirect()->route('wilayah-index')->with('msg','Sukses Menambahkan Data');
 
     }
-    public function datatable()
+    public function datatable(Request $request)
     {
         $model = MWilayah::select('m_wilayah.*','m_area.nama_area as area')
                     ->join('m_area','m_area.id_area','m_wilayah.id_area')
                     ->where('m_wilayah.deleted',1);
+        if ($request->data != 0) {
+            $model = $model->where('m_wilayah.id_area',$request->data);
+        }
+        $model->orderBy('nama_wilayah','asc');
         return DataTables::eloquent($model)
             ->addColumn('action', function ($row) {
                 $btn = '';                

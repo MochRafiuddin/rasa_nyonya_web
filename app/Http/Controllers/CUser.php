@@ -9,6 +9,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use DataTables;
 use DB;
+use Hash;
 use App\Traits\Helper;  
 
 class CUser extends Controller
@@ -17,14 +18,14 @@ class CUser extends Controller
 
     public function index()
     {
-        return view('user.index')->with('title','User');
+        return view('user.index')->with('title','Akun');
     }
     public function create($title_page = 'Tambah')
     {
         $url = url('user/create-save');
         return view('user.form')
             ->with('data',null)            
-            ->with('title','User')
+            ->with('title','Akun')
             ->with('titlePage',$title_page)
             ->with('url',$url);
     }
@@ -45,6 +46,7 @@ class CUser extends Controller
         $user->username = $request->username;
         $user->tipe_user = $request->tipe_user;
         $user->id_ref = $request->id_ref;
+        $user->password = Hash::make($request->password);
         $user->save();
         return redirect()->route('user-index')->with('msg','Sukses Menambahkan Data');
     }
@@ -61,7 +63,7 @@ class CUser extends Controller
         return view('user.form')
             ->with('data',$user)            
             ->with('id_ref',$ref)
-            ->with('title','User')
+            ->with('title','Akun')
             ->with('titlePage','Edit')
             ->with('url',url('user/show-save/'.$id));
     }
@@ -87,16 +89,14 @@ class CUser extends Controller
     }
     public function delete($id)
     {
-        User::updateDeleted($id);
+        User::where('id_user',$id)->update(['deleted'=> 0]);
         return redirect()->route('user-index')->with('msg','Sukses Menambahkan Data');
 
     }
     public function datatable()
     {
         $results = User::from('m_user as t1')
-                ->selectRaw('t1.*, IF(t1.tipe_user = "1", t3.nama, t2.nama) AS nama_user')
-                ->join('m_courier as t2','t1.id_ref','t2.id_courier')
-                ->join('m_admin as t3','t1.id_ref','t3.id_admin')
+                ->selectRaw('t1.*, IF(t1.tipe_user = "1", (select nama from m_admin where deleted = 1 and id_admin = t1.id_ref), (select nama from m_courier where deleted = 1 and id_courier = t1.id_ref)) AS nama_user')                
                 ->where('t1.deleted',1);        
         return DataTables::eloquent($results)
             ->addColumn('action', function ($row) {

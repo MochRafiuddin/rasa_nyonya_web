@@ -16,6 +16,9 @@ $name[] = 'keterangan';
         <div class="card">
             <div class="card-body">
                 <h6 class="card-title">{{$titlePage}} Order</h6>
+                @if(Session::has('msg'))
+                <div class="alert alert-danger alert-sm mt-2">{{ Session::get('msg') }}</div>
+                @endif
                 <form action="{{$url}}" method="post">
                     @csrf
                     <div class="row">
@@ -43,7 +46,7 @@ $name[] = 'keterangan';
                                 {{Helper::showDataSelected($data,$name[1],1)}}>Makan Siang</option>
                                 <option value="2"
                                 {{(old($name[1]) == 2) ? 'selected' : ''}}
-                                {{Helper::showDataSelected($data,$name[1],2)}}>Makan Malams</option>
+                                {{Helper::showDataSelected($data,$name[1],2)}}>Makan Malam</option>
                             </select>
                         </div>                    
                     </div>
@@ -103,8 +106,9 @@ $name[] = 'keterangan';
                     <div class="row">
                         <div class="form-group col">
                             <label for="exampleInputEmail1">Alamat</label>
-                            <input type="text" class="form-control @error($name[6]) is-invalid @enderror"
-                            value="{{Helper::showData($data,$name[6])}}" name="{{$name[6]}}" />
+                            <textarea type="text" class="form-control @error($name[6]) is-invalid @enderror"
+                                cols="5" rows="6" value=""
+                                name="{{$name[6]}}">{{Helper::showData($data,$name[6])}}</textarea>
                         </div>
                     </div>
                     <div class="row">                        
@@ -129,15 +133,12 @@ $name[] = 'keterangan';
     $('.js-example-basic-single').select2({
           placeholder: "Cari Customer",
     });
+    $('#id_area, #id_wilayah').select2();
+
     $('#tanggal_pemesanan').datepicker({
         format: 'dd-mm-yyyy',
-            //   icons: {
-            //       time: "mdi mdi-clock ",
-            //       date: "mdi mdi-calendar",
-            //       up: "mdi mdi-arrow-up",
-            //       down: "mdi mdi-arrow-down"
-            //   }
-          });
+        startDate: '1d',
+    });
     function read_data() {
         let id_area = $('#id_area').val();
         $.ajax({

@@ -20,8 +20,8 @@
                                 <thead>
                                     <tr>
                                         <th>No</th>
-                                        <th>Kode</th>
-                                        <th>Nama</th>
+                                        <th>Nama Area</th>
+                                        <th>Kode Area</th>
                                         <th>Action</th>
                                     </tr>
                                 </thead>
@@ -65,12 +65,12 @@
                         className: 'text-center'
                     },
                     {
-                        data: 'kode_area',
-                        name: 'kode_area',                        
-                    },
-                    {
                         data: 'nama_area',
                         name: 'nama_area',                        
+                    },
+                    {
+                        data: 'kode_area',
+                        name: 'kode_area',                        
                     },
                     {
                         data: 'action',

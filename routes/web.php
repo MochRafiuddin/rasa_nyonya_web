@@ -78,6 +78,7 @@ Route::middleware(['auth','language'])->group(function ()
         Route::get('/data',[CCourier::class,'datatable']);
 
         Route::get('/get-wilayah-by-area',[CCourier::class,'get_wilayah_by_area']);
+        Route::get('/get-wilayah-by-area-filter',[CCourier::class,'get_wilayah_by_area_filter']);
     });
     Route::group(['prefix' => 'admin'],function ()
     {

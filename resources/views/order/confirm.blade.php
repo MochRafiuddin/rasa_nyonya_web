@@ -89,7 +89,7 @@ $name[] = 'id_status';
                                 {{Helper::showDataSelected($data,$name[1],1)}}>Makan Siang</option>
                                 <option value="2"
                                 {{(old($name[1]) == 2) ? 'selected' : ''}}
-                                {{Helper::showDataSelected($data,$name[1],2)}}>Makan Malams</option>
+                                {{Helper::showDataSelected($data,$name[1],2)}}>Makan Malam</option>
                             </select>
                         </div>                                        
                         <div class="form-group col-6">
@@ -144,8 +144,9 @@ $name[] = 'id_status';
                         </div>                                        
                         <div class="form-group col-6">
                             <label for="exampleInputEmail1">Alamat</label>
-                            <input type="text" class="form-control @error($name[6]) is-invalid @enderror"
-                            value="{{Helper::showData($data,$name[6])}}" name="{{$name[6]}}" disabled/>
+                            <textarea type="text" class="form-control @error($name[6]) is-invalid @enderror"
+                                cols="5" rows="6" value=""
+                                name="{{$name[6]}}" disabled>{{Helper::showData($data,$name[6])}}</textarea>
                         </div>                                          
                         <div class="form-group col-6">
                             <label for="exampleInputEmail1">Keterangan</label>
@@ -245,6 +246,8 @@ $name[] = 'id_status';
     $('.js-example-basic-single').select2({
           placeholder: "Cari Customer",
     });
+    $('#id_area, #id_wilayah').select2();
+
     // $('#tanggal_pemesanan').datetimepicker({
     //     format: 'LD',
     //           icons: {

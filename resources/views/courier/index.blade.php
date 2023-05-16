@@ -7,7 +7,27 @@
     <div class="content-wrapper">
         <div class="card">
             <div class="card-body">
-                <h4>Courier</h4><br>
+                <h4>Kurir</h4><br>
+                <div class="row">                
+                    <div class="form-group col-4">
+                        <label for="exampleInputEmail1">Area</label>
+                        <select class="form-control js-example-basic-single" name="id_area" id="id_area">
+                            <option value="0" selected> Semua Area </option>                                
+                            @foreach($area as $key)
+                            <option value="{{$key->id_area}}">{{$key->nama_area}}</option>
+                            @endforeach
+                        </select>
+                    </div>
+                    <div class="form-group col-4">
+                        <label for="exampleInputEmail1">Wilayah</label>
+                        <select class="form-control js-example-basic-single" name="id_wilayah" id="id_wilayah">
+                            <option value="0" selected> Semua Wilayah </option>                                
+                            @foreach($wilayah as $key)
+                            <option value="{{$key->id_wilayah}}">{{$key->nama_wilayah}}</option>
+                            @endforeach
+                        </select>
+                    </div>
+                </div>
                 <div class="row mb-4">
                     <div class="col text-right">                        
                         <a href="{{url('courier/create')}}" class="btn btn-info">Tambah</a>                        
@@ -46,14 +66,18 @@
     $(document).ready(function () {
         read_data();
 
+        $('#id_area ,#id_wilayah').select2();
+
         function read_data() {
-            $('table').DataTable({
+            $('.table').DataTable({
                 processing: true,
                 serverSide: true,
 
                 "scrollX": true,
                 ajax: {
                     url: '{{ url("courier/data") }}',
+                    type: 'get',
+                    data: {area:$('#id_area').val(), wilayah:$('#id_wilayah').val()},
                 },
                 rowReorder: {
                     selector: 'td:nth-child(1)'
@@ -113,6 +137,32 @@
                 }
                 })
         })
+
+        function data_wilayah() {
+            let id_area = $('#id_area').val();
+            $.ajax({
+                url: "{{url('courier/get-wilayah-by-area-filter')}}",
+                type: "get",
+                data:  {
+                    id_area : id_area,
+                },
+                dataType: "JSON",
+                success: function(res){
+                    $('#id_wilayah').html(res);
+                }
+            });
+        }
+
+        $('#id_area').on('change',function(){
+            data_wilayah();
+            $('.table').DataTable().destroy();
+            read_data();
+        });
+
+        $('#id_wilayah').on('change',function(){
+            $('.table').DataTable().destroy();
+            read_data();
+        });
     });
 </script>
 @endpush

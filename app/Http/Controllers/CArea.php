@@ -78,7 +78,7 @@ class CArea extends Controller
     }
     public function datatable()
     {
-        $model = MArea::withDeleted();
+        $model = MArea::orderBy('nama_area','asc');
         return DataTables::eloquent($model)
             ->addColumn('action', function ($row) {
                 $btn = '';                

@@ -7,7 +7,7 @@
     <div class="content-wrapper">
         <div class="card">
             <div class="card-body">
-                <h4>User</h4><br>
+                <h4>Akun</h4><br>
                 <div class="row mb-4">
                     <div class="col text-right">                        
                         <a href="{{url('user/create')}}" class="btn btn-info">Tambah</a>                        

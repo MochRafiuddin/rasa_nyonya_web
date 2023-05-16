@@ -12,7 +12,7 @@ $name[] = 'id_wilayah';
     <div class="content-wrapper">
         <div class="card">
             <div class="card-body">
-                <h6 class="card-title">{{$titlePage}} Courier</h6>
+                <h6 class="card-title">{{$titlePage}} Kurir</h6>
                 <form action="{{$url}}" method="post">
                     @csrf
                     <div class="row">
@@ -79,6 +79,8 @@ $name[] = 'id_wilayah';
 @push('js')
 <script src="{{asset('/')}}assets/js/select2.js"></script>
 <script>        
+    $('#id_area ,#id_wilayah').select2();
+
     function read_data() {
         let id_area = $('#id_area').val();
         $.ajax({

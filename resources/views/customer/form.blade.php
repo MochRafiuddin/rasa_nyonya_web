@@ -21,10 +21,13 @@ $name[] = 'alamat';
                         </div>
                     </div>
                     <div class="row">
-                        <div class="form-group col">
+                        <div class="form-group col @error($name[1]) has-danger @enderror">
                             <label for="exampleInputEmail1">No Hp</label>
                             <input type="text" class="form-control @error($name[1]) is-invalid @enderror"
                             value="{{Helper::showData($data,$name[1])}}" name="{{$name[1]}}" />
+                            @error($name[1])
+                                <p id="cname-error" class="error mt-2 text-danger" for="cname">No HP sudah ada, silakan masukkan no HP yang lain</p>
+                            @enderror
                         </div>
                     </div>
                     <div class="row">                        
