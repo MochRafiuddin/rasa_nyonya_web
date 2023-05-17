@@ -189,7 +189,7 @@
                     },
                     {
                         data: 'kurir',
-                        name: 'kurir',
+                        name: 'id_courier',
                         searchable: false
                     },
                     {
