@@ -245,8 +245,7 @@ $name[] = 'id_status';
 <script>        
     $('.js-example-basic-single').select2({
           placeholder: "Cari Customer",
-    });
-    $('#id_area, #id_wilayah').select2();
+    });    
 
     // $('#tanggal_pemesanan').datetimepicker({
     //     format: 'LD',

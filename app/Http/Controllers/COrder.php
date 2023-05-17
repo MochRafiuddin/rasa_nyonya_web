@@ -212,11 +212,11 @@ class COrder extends Controller
                 if($row->id_status == 1){
                     $btn .= '<a href="'.url('order/delete/'.$row->id_order).'" class="text-primary delete mr-2"><span class="mdi mdi-delete" data-toggle="tooltip" data-placement="Top" title="Delete"></span></a>';
                     $btn .= '<a href="'.url('order/show/'.$row->id_order).'" class="text-danger mr-2"><span class="mdi mdi-pen" data-toggle="tooltip" data-placement="Top" title="Edit"></span></a>';
-                    $btn .= '<a href="'.url('order/detail/'.$row->id_order).'" class="text-warning mr-2"><span class="mdi mdi-adjust" data-toggle="tooltip" data-placement="Top" title="Track"></span></a>';
+                    $btn .= '<a href="'.url('order/detail/'.$row->id_order).'" class="text-warning mr-2"><span class="mdi mdi-adjust" data-toggle="tooltip" data-placement="Top" title="Detail"></span></a>';
                 }else if ($row->id_status == 2 || $row->id_status == 4 || $row->id_status == 5) {
-                    $btn .= '<a href="'.url('order/detail/'.$row->id_order).'" class="text-warning mr-2"><span class="mdi mdi-adjust" data-toggle="tooltip" data-placement="Top" title="Track"></span></a>';
+                    $btn .= '<a href="'.url('order/detail/'.$row->id_order).'" class="text-warning mr-2"><span class="mdi mdi-adjust" data-toggle="tooltip" data-placement="Top" title="Detail"></span></a>';
                 }else if ($row->id_status == 3) {
-                    $btn .= '<a href="'.url('order/detail/'.$row->id_order).'" class="text-warning mr-2"><span class="mdi mdi-adjust" data-toggle="tooltip" data-placement="Top" title="Track"></span></a>';
+                    $btn .= '<a href="'.url('order/detail/'.$row->id_order).'" class="text-warning mr-2"><span class="mdi mdi-adjust" data-toggle="tooltip" data-placement="Top" title="Detail"></span></a>';
                     $btn .= '<a href="'.url('order/confirm/'.$row->id_order).'" class="text-success mr-2"><span class="mdi mdi-check" data-toggle="tooltip" data-placement="Top" title="Confirm"></span></a>';
                 }
                 return $btn;
