@@ -93,7 +93,7 @@
                     },
                     {
                         data: 'area',
-                        name: 'area',                        
+                        name: 'm_area.nama_area',                        
                     },
                     {
                         data: 'fee',
