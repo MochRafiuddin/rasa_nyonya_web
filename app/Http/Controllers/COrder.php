@@ -29,7 +29,7 @@ class COrder extends Controller
             ->with('wilayah',MWilayah::where('deleted',1)->orderBy('nama_wilayah','asc')->get())
             ->with('customer',MCustomer::where('deleted',1)->orderBy('nama','asc')->get())
             ->with('tanggal',$tanggal)
-            ->with('title','Order');
+            ->with('title','Delivery');
     }
     public function create($title_page = 'Tambah')
     {
@@ -39,7 +39,7 @@ class COrder extends Controller
             ->with('area',MArea::where('deleted',1)->orderBy('nama_area','asc')->get())
             ->with('wilayah',MWilayah::where('deleted',1)->orderBy('nama_wilayah','asc')->get())
             ->with('customer',MCustomer::where('deleted',1)->orderBy('nama','asc')->get())
-            ->with('title','Order')
+            ->with('title','Delivery')
             ->with('titlePage',$title_page)
             ->with('url',$url);
     }
@@ -83,7 +83,7 @@ class COrder extends Controller
             ->with('area',MArea::where('deleted',1)->orderBy('nama_area','asc')->get())
             ->with('wilayah',MWilayah::where('deleted',1)->where('id_area',$data->id_area)->orderBy('nama_wilayah','asc')->get())
             ->with('customer',MCustomer::where('deleted',1)->orderBy('nama','asc')->get())            
-            ->with('title','Order')
+            ->with('title','Delivery')
             ->with('titlePage','Edit')
             ->with('url',url('order/show-save/'.$id));
     }
@@ -100,7 +100,7 @@ class COrder extends Controller
             ->with('courier',MCourier::where('deleted',1)->get())
             ->with('status',MStatus::where('deleted',1)->get())
             ->with('cus',MCustomer::find($order->id_customer))
-            ->with('title','Order')
+            ->with('title','Delivery')
             ->with('titlePage','Detail')
             ->with('url',url('order/show-save/'.$id));
     }
@@ -118,7 +118,7 @@ class COrder extends Controller
             ->with('status',MStatus::where('deleted',1)->get())
             ->with('cus',MCustomer::find($order->id_customer))
             ->with('fee',MWilayah::find($order->id_wilayah))
-            ->with('title','Order')
+            ->with('title','Delivery')
             ->with('titlePage','Confirm')
             ->with('url',url('order/show-save/'.$id));
     }

@@ -107,7 +107,7 @@
 		              </form>
 		              <div class="row" style="position: absolute; bottom: 15px; right: 0; left: 0;">	
 	            		<div class="col text-center">
-	            				<p class=" m-auto">	Powered By <a href="https://www.aptikma.co.id" target="_blank">Aptikma.co.id</a></p>	
+	            				<p class=" m-auto">	Powered By <a href="#" target="_blank">My Company</a></p>	
 	            		</div>
 		            </div>
 		            </div>

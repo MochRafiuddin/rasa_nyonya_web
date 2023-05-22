@@ -15,7 +15,7 @@ $name[] = 'keterangan';
     <div class="content-wrapper">
         <div class="card">
             <div class="card-body">
-                <h6 class="card-title">{{$titlePage}} Order</h6>
+                <h6 class="card-title">{{$titlePage}} Delivery</h6>
                 @if(Session::has('msg'))
                 <div class="alert alert-danger alert-sm mt-2">{{ Session::get('msg') }}</div>
                 @endif

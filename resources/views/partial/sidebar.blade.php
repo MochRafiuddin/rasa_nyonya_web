@@ -41,12 +41,12 @@
         <li class="nav-item">
             <a class="nav-link" data-toggle="collapse" href="#ui-advanced1" aria-expanded="false" aria-controls="ui-advanced1">
                 <i class="mdi mdi-cube-send menu-icon"></i>
-                <span class="menu-title">Order</span>
+                <span class="menu-title">Delivery</span>
                 <i class="menu-arrow"></i>
             </a>
             <div class="collapse" id="ui-advanced1">
                 <ul class="nav flex-column sub-menu">
-                    <li class="nav-item"> <a class="nav-link" href="{{route('order-index')}}">Order</a></li>                    
+                    <li class="nav-item"> <a class="nav-link" href="{{route('order-index')}}">Delivery</a></li>                    
                 </ul>
             </div>
         </li>        

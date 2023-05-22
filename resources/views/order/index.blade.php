@@ -7,7 +7,7 @@
     <div class="content-wrapper">
         <div class="card">
             <div class="card-body">
-                <h4>Order</h4><br>
+                <h4>Delivery</h4><br>
                 <div class="row">                
                     <div class="form-group col-3">
                         <label for="">Tanggal</label>
@@ -111,7 +111,7 @@
                 <div class="modal-body">
                     <div class="form_group">
                       <label>Format Excel</label>
-                      <p><a href="{{ asset('download/Format upload order - rasa nyonya.xlsx') }}">Download Format Excel</a></p>
+                      <p><a href="{{ asset('download/Format Upload Delivery - rasa nyonya.xlsx') }}">Download Format Excel</a></p>
                   </div>
                   <br>
                   <div class="form_group" id="file">
