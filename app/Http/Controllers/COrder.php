@@ -53,7 +53,6 @@ class COrder extends Controller
             'id_area' => 'required',
             'id_wilayah' => 'required',
             'alamat' => 'required',
-            'keterangan' => 'required',
         ]);
         if ($validator->fails()) {
             return redirect()->back()
@@ -134,7 +133,6 @@ class COrder extends Controller
             'id_area' => 'required',
             'id_wilayah' => 'required',
             'alamat' => 'required',
-            'keterangan' => 'required',
         ]);
         if ($validator->fails()) {
             return redirect()->back()
