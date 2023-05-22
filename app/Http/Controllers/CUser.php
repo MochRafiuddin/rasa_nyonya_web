@@ -109,7 +109,7 @@ class CUser extends Controller
                 if ($row->tipe_user == 1) {
                     $btn = 'Admin';
                 }else {
-                    $btn = 'Courier';
+                    $btn = 'Kurir';
                 }
                 return $btn;
             })            
