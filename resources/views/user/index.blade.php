@@ -23,7 +23,7 @@
                                         <th>Username</th>
                                         <th>Nama</th>
                                         <th>Tipe User</th>
-                                        <th>Action</th>
+                                        <th>Opsi</th>
                                     </tr>
                                 </thead>
                             </table>

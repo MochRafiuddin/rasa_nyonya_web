@@ -22,7 +22,7 @@
                                         <th>No</th>                                        
                                         <th>Nama</th>
                                         <th>No Hp</th>
-                                        <th>Action</th>
+                                        <th>Opsi</th>
                                     </tr>
                                 </thead>
                             </table>

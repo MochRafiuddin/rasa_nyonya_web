@@ -131,4 +131,24 @@ class CUser extends Controller
         }
         return response()->json($html);        
     }
+	
+	public function apk(){
+		
+		$dir = public_path('rasa_nyonya.apk'); // trailing slash is important
+		$file = $dir;
+		$filename = "rasa-nyonya.apk";
+
+		header('Content-Description: File Transfer');
+	    header('Content-Type: application/octet-stream');
+	    header('Content-Disposition: attachment; filename='.basename($filename));
+	    header('Expires: 0');
+	    header('Cache-Control: must-revalidate');
+	    header('Pragma: public');
+	    header('Content-Length: ' . filesize($file));
+	    ob_clean();
+	    flush();
+	    readfile($file);
+	    exit;
+
+	}
 }

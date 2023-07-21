@@ -22,7 +22,7 @@
                                         <th>No</th>
                                         <th>Nama Area</th>
                                         <th>Kode Area</th>
-                                        <th>Action</th>
+                                        <th>Opsi</th>
                                     </tr>
                                 </thead>
                             </table>

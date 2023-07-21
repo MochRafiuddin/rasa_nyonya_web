@@ -25,6 +25,7 @@
                                     <th>Nama Kurir</th>
                                     <th>Wilayah</th>
                                     <th>Total Fee</th>
+                                    <th>Opsi</th>
                                 </tr>
                             <thead>                            
                             </table>
@@ -80,6 +81,12 @@
                     {
                         data: 'total_fee',
                         name: 'total_fee',
+                        searchable: false
+                    },
+                    {
+                        data: 'opsi',
+                        name: 'opsi',
+                        orderable: false,
                         searchable: false
                     }
                 ]

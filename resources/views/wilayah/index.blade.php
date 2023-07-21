@@ -35,7 +35,7 @@
                                         <th>Kode Wilayah</th>
                                         <th>Nama Area</th>
                                         <th>Fee</th>
-                                        <th>Action</th>
+                                        <th>Opsi</th>
                                     </tr>
                                 </thead>
                             </table>

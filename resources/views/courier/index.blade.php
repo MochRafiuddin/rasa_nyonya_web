@@ -45,7 +45,7 @@
                                         <th>No Hp</th>
                                         <th>Area</th>
                                         <th>Wilayah</th>
-                                        <th>Action</th>
+                                        <th>Opsi</th>
                                     </tr>
                                 </thead>
                             </table>

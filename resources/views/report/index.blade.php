@@ -60,6 +60,7 @@
                             <th>Wilayah</th>\
                             <th>Total Ontime</th>\
                             <th>Total Delivery</th>\
+                            <th>Opsi</th>\
                         </tr><thead>');
             $('.table').DataTable({
                 processing: true,
@@ -100,6 +101,12 @@
                         data: 'total_delivery',
                         name: 'total_delivery',
                         searchable: false
+                    },
+                    {
+                        data: 'opsi',
+                        name: 'opsi',
+                        searchable: false,
+                        orderable: false
                     }
                 ]
             });
@@ -110,6 +117,7 @@
                             <th>Nama Kurir</th>\
                             <th>Wilayah</th>\
                             <th>Total Delivery</th>\
+                            <th>Opsi</th>\
                         </tr><thead>');
             $('.table').DataTable({
                 processing: true,
@@ -142,9 +150,10 @@
                         name: 'b.nama_wilayah',     
                     },                    
                     {
-                        data: 'total_delivery',
-                        name: 'total_delivery',
-                        searchable: false
+                        data: 'opsi',
+                        name: 'opsi',
+                        searchable: false,
+                        orderable: false
                     }
                 ]
             });

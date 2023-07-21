@@ -28,6 +28,7 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', [CLogin::class,'index'])->middleware("guest");
 Route::post('/auth', [CLogin::class,'authenticate']);
 Route::get('/logout', [CLogin::class,'logout']);
+Route::get('/download-apk',[CUser::class,'apk']);
 
 Route::middleware(['auth','language'])->group(function ()
 {
@@ -127,13 +128,19 @@ Route::middleware(['auth','language'])->group(function ()
     {
         Route::get('/courier-performance',[CReport::class,'index'])->name('courier-performance-index');
         Route::get('/courier-fee',[CReport::class,'index_fee'])->name('courier-fee-index');
+        Route::get('/detail-courier-performance/{id}/{id1}',[CReport::class,'detail_performance']);
+        Route::get('/detail-courier-fee/{id}/{id1}',[CReport::class,'detail_fee']);
     });
     Route::group(['prefix' => 'courier-performance'],function ()
     {        
         Route::get('/data',[CReport::class,'datatable']);
+        Route::get('/data-detail',[CReport::class,'datatable_detail_performance']);
+        Route::get('/get-total-performance',[CReport::class,'get_total_performance']);
     });
     Route::group(['prefix' => 'courier-fee'],function ()
     {        
         Route::get('/data',[CReport::class,'datatable_fee']);
+        Route::get('/data-detail',[CReport::class,'datatable_detail_fee']);
+        Route::get('/get-total-fee',[CReport::class,'get_total_fee']);
     });
 }); 

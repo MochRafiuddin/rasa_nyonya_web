@@ -59,10 +59,16 @@
                 curr == "order/confrim"
             ) {
                 current = "order";
-            } else if (curr == "report/courier-performance") {
-                current = "report/courier-performance";
-            } else if (curr == "report/courier-fee") {
+            } else if (
+                curr == "report/courier-fee" ||
+                curr == "report/detail-courier-fee"
+            ) {
                 current = "report/courier-fee";
+            } else if (
+                curr == "report/courier-performance" ||
+                curr == "report/detail-courier-performance"
+            ) {
+                current = "report/courier-performance";
             }
 
             if (current === "") {
